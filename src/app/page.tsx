@@ -18,6 +18,7 @@ const App: React.FC = () => {
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [routeInfo, setRouteInfo] = useState<{ duration?: string; distance?: string }>({});
 
   // Função para falar a mensagem usando a Web Speech API
   const speakMessage = (message: string) => {
@@ -42,8 +43,14 @@ const App: React.FC = () => {
         travelMode: google.maps.TravelMode.DRIVING,
       },
       (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK && result) {
+        if (status === google.maps.DirectionsStatus.OK && result && result.routes.length > 0) {
+          const route = result.routes[0];
+          const leg = route.legs[0];
           setDirections(result);
+          setRouteInfo({
+            duration: leg.duration ? leg.duration.text : 'Desconhecido',
+            distance: leg.distance ? leg.distance.text : 'Desconhecido',
+          });
           setErrorMessage(''); // Limpa qualquer mensagem de erro anterior
         } else {
           const message = 'Não foi possível calcular a rota. Verifique os endereços e tente novamente.';
@@ -74,6 +81,12 @@ const App: React.FC = () => {
         />
         <button onClick={calculateRoute}>Calcular Rota</button>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        {routeInfo.duration && (
+          <div>
+            <p><strong>Duração:</strong> {routeInfo.duration}</p>
+            <p><strong>Distância:</strong> {routeInfo.distance}</p>
+          </div>
+        )}
       </div>
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
         {directions && <DirectionsRenderer directions={directions} />}
