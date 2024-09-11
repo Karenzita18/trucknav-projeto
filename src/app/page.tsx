@@ -1,98 +1,30 @@
 "use client";
 
-import React, { useState } from 'react';
-import { GoogleMap, LoadScript, DirectionsRenderer } from '@react-google-maps/api';
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "../context/AuthContext";
+import FeedMaps from "@/components/common/FeedMaps";
 
-const containerStyle = {
-  width: '100vw',
-  height: '100vh',
-};
 
-const center = {
-  lat: -23.5505,
-  lng: -46.6333,
-};
+function Page() {
+  const { userAuth, logout } = useAuthContext();
+  const router = useRouter();
 
-const App: React.FC = () => {
-  const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
-  const [origin, setOrigin] = useState('');
-  const [destination, setDestination] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [routeInfo, setRouteInfo] = useState<{ duration?: string; distance?: string }>({});
+  console.log(userAuth);
 
-  // Função para falar a mensagem usando a Web Speech API
-  const speakMessage = (message: string) => {
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(message);
-    synth.speak(utterance);
-  };
-
-  const calculateRoute = () => {
-    if (!origin || !destination) {
-      const message = 'Por favor, insira o local de origem e destino.';
-      setErrorMessage(message);
-      speakMessage(message);
-      return;
-    }
-
-    const directionsService = new google.maps.DirectionsService();
-    directionsService.route(
-      {
-        origin: origin,
-        destination: destination,
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-      (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK && result && result.routes.length > 0) {
-          const route = result.routes[0];
-          const leg = route.legs[0];
-          setDirections(result);
-          setRouteInfo({
-            duration: leg.duration ? leg.duration.text : 'Desconhecido',
-            distance: leg.distance ? leg.distance.text : 'Desconhecido',
-          });
-          setErrorMessage(''); // Limpa qualquer mensagem de erro anterior
-        } else {
-          const message = 'Não foi possível calcular a rota. Verifique os endereços e tente novamente.';
-          console.error(`Erro ao buscar direções: ${status}`);
-          setErrorMessage(message);
-          speakMessage(message); // Fala a mensagem de erro
-        }
-      }
-    );
-  };
+  if (userAuth == null) {
+    router.push("/singIn");
+  }
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyAvpVLR0JkPrVlCBnrJB8D8HH_bOfCMsX0">
-      <div style={{ padding: '10px' }}>
-        <input
-          type="text"
-          placeholder="Digite o local de origem"
-          value={origin}
-          onChange={(e) => setOrigin(e.target.value)}
-          style={{ marginRight: '10px' }}
-        />
-        <input
-          type="text"
-          placeholder="Digite o destino"
-          value={destination}
-          onChange={(e) => setDestination(e.target.value)}
-          style={{ marginRight: '10px' }}
-        />
-        <button onClick={calculateRoute}>Calcular Rota</button>
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        {routeInfo.duration && (
-          <div>
-            <p><strong>Duração:</strong> {routeInfo.duration}</p>
-            <p><strong>Distância:</strong> {routeInfo.distance}</p>
-          </div>
-        )}
-      </div>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
-        {directions && <DirectionsRenderer directions={directions} />}
-      </GoogleMap>
-    </LoadScript>
+    <>
+      {userAuth && (
+        <main>
+           <FeedMaps />
+           <button onClick={() => logout()}>Sign Out</button>
+        </main>
+      )}
+    </>
   );
-};
+}
 
-export default App;
+export default Page;
