@@ -10,6 +10,7 @@ const firebaseAppConfig = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-let firebase_app = getApps().length === 0 ? initializeApp(firebaseAppConfig) : getApps()[0];
+// Usando const já que a variável não será reatribuída
+const firebase_app = getApps().length === 0 ? initializeApp(firebaseAppConfig) : getApps()[0];
 
 export default firebase_app;
