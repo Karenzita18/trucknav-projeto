@@ -1,5 +1,5 @@
 "use client";
-
+import Image from 'next/image'
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "../../context/AuthContext";
 
@@ -19,7 +19,7 @@ function Page() {
                     <div  className="container mx-auto">
                         <div  className="flex flex-col max-w-xl bg-zinc-50 rounded-xl px-5 sm:px-10 pb-6 sm:pb-7 mx-auto shadow-lg">
                             <div className="w-32 sm:w-44 h-32 sm:h-44 mx-auto -mt-10 mb-2">
-                                <img
+                                <Image
                                     src="/img/img.png"
                                     alt="logo"
                                     className="rounded-full"

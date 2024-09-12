@@ -1,28 +1,28 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useAuthContext } from "../context/AuthContext";
+//import { useRouter } from "next/navigation";
+//import { useAuthContext } from "../context/AuthContext";
 import FeedMaps from "@/components/common/FeedMaps";
 
 
 function Page() {
-  const { userAuth, logout } = useAuthContext();
-  const router = useRouter();
+  //const { userAuth, logout } = useAuthContext();
+  //const router = useRouter();
 
-  console.log(userAuth);
+  //console.log(userAuth);
 
-  if (userAuth == null) {
-    router.push("/singIn");
-  }
+  //if (userAuth == null) {
+    //router.push("/singIn");
+  //}
 
   return (
     <>
-      {userAuth && (
+      
         <main>
            <FeedMaps />
            {/*<button onClick={() => logout()}>Sign Out</button>*/}
         </main>
-      )}
+    
     </>
   );
 }
