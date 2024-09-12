@@ -1,27 +1,34 @@
 'use client'
 
-import React from "react";
+import React, { useState } from "react";
 import signUp from "../../firebase/auth/SingUp";
 import { useRouter } from 'next/navigation';
 
 function Page1() {
-    const [email, setEmail] = React.useState('')
-    const [password, setPassword] = React.useState('')
-    const router = useRouter()
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // Estado para controlar a visibilidade da senha
+    const router = useRouter();
 
     const handleForm = async (event: React.FormEvent) => {
-        event.preventDefault()
+        event.preventDefault();
 
         const { result, error } = await signUp(email, password);
 
         if (error) {
-            return console.log(error)
+            return console.log(error);
         }
 
         // else successful
-        console.log(result)
-        return router.push("/singIn")
-    }
+        console.log(result);
+        return router.push("/singIn");
+    };
+
+    // Função para alternar a visibilidade da senha
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
        <div className="bg-brand-300/10 flex flex-col justify-between min-h-screen">
             <section  className="bg-brand-300/40 flex justify-center place-content-center h-full grow px-5 place-items-center">
@@ -42,26 +49,33 @@ function Page1() {
                                 <label htmlFor="email" className="mb-4">
                                     <p>Email</p>
                                     <input 
-                                    onChange={(e) => setEmail(e.target.value)} 
-                                    required 
-                                    type="email" 
-                                    name="email" 
-                                    id="email"  
-                                    placeholder="example@mail.com"
-                                    className="border p-2 rounded"
-                                />
+                                        onChange={(e) => setEmail(e.target.value)} 
+                                        required 
+                                        type="email" 
+                                        name="email" 
+                                        id="email"  
+                                        placeholder="example@mail.com"
+                                       className="border p-2 rounded"
+                                    />
                                 </label>
-                                <label htmlFor="password"  className="mb-4">
+                                <label htmlFor="password"  className="mb-4 relative">
                                     <p>Password</p>
                                     <input 
-                                    onChange={(e) => setPassword(e.target.value)} 
-                                    required 
-                                    type="password" 
-                                    name="password" 
-                                    id="password"
-                                    placeholder="password" 
-                                    className="border p-2 rounded"
-                                />
+                                        onChange={(e) => setPassword(e.target.value)} 
+                                        required 
+                                        type={showPassword ? 'text' : 'password'} // Alterna entre "text" e "password"
+                                        name="password" 
+                                        id="password"
+                                        placeholder="password" 
+                                        className="border p-2 rounded"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={togglePasswordVisibility}
+                                        className="absolute right-2 top-10 text-sm"
+                                    >
+                                        {showPassword ? 'Ocultar' : 'Mostrar'}
+                                    </button>
                                 </label>
                                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mb-4">Salvar</button>
                                 {/*<button type="button" onClick={() => router.push("/singIn")} className="bg-gray-500 text-white px-4 py-2 rounded">Login</button>*/}

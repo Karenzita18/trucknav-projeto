@@ -2,10 +2,14 @@
 
 import React, { useState } from 'react';
 import { GoogleMap, LoadScript, DirectionsRenderer } from '@react-google-maps/api';
+import { FiSearch } from "react-icons/fi";
+import { useRouter } from "next/navigation";
+import { IoMenuOutline } from 'react-icons/io5';
+import { LuArrowDownUp } from "react-icons/lu";
 
 const containerStyle = {
   width: '100vw',
-  height: '100vh',
+  height: '72vh',
 };
 
 const center = {
@@ -19,22 +23,18 @@ const FeedMaps: React.FC = () => {
   const [destination, setDestination] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [routeInfo, setRouteInfo] = useState<{ duration?: string; distance?: string }>({});
-
-  // Função para falar a mensagem usando a Web Speech API
-  const speakMessage = (message: string) => {
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(message);
-    synth.speak(utterance);
-  };
+  const router = useRouter();  // Hook para navegação
 
   const calculateRoute = () => {
+
+    // Nessa função para o usuário digitar o local de origem e destino
     if (!origin || !destination) {
       const message = 'Por favor, insira o local de origem e destino.';
       setErrorMessage(message);
-      speakMessage(message);
       return;
     }
 
+    // Função para se o usuário digitar alguns dos locais errados aparecer mensagens de erro.
     const directionsService = new google.maps.DirectionsService();
     directionsService.route(
       {
@@ -54,43 +54,123 @@ const FeedMaps: React.FC = () => {
           setErrorMessage(''); // Limpa qualquer mensagem de erro anterior
         } else {
           const message = 'Não foi possível calcular a rota. Verifique os endereços e tente novamente.';
-          console.error(`Erro ao buscar direções: ${status}`);
           setErrorMessage(message);
-          speakMessage(message); // Fala a mensagem de erro
         }
       }
     );
   };
 
+  // Função para inverter origem e destino
+  const invertRoute = () => {
+    const newOrigin = destination;
+    const newDestination = origin;
+    setOrigin(newOrigin);
+    setDestination(newDestination);
+  };
+
+  const handleConfigClick = () => {
+    router.push("/config");  // Navegar para a página de configurações
+  };
+
   return (
-    <LoadScript googleMapsApiKey="AIzaSyAvpVLR0JkPrVlCBnrJB8D8HH_bOfCMsX0">
-      <div >
-        <input
-          type="text"
-          placeholder="Digite o local de origem"
-          value={origin}
-          onChange={(e) => setOrigin(e.target.value)}
-          style={{ marginRight: '10px' }}
-        />
-        <input
-          type="text"
-          placeholder="Digite o destino"
-          value={destination}
-          onChange={(e) => setDestination(e.target.value)}
-          style={{ marginRight: '10px' }}
-        />
-        <button onClick={calculateRoute}>Calcular Rota</button>
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+    // Chama API - GOOGLE MAPS
+    <LoadScript 
+      googleMapsApiKey="AIzaSyAvpVLR0JkPrVlCBnrJB8D8HH_bOfCMsX0"
+    >
+      <GoogleMap 
+        mapContainerStyle={containerStyle} 
+        center={center} 
+        zoom={10}
+      >
+        {directions && <DirectionsRenderer directions={directions} />}
+
+        {/* Aqui será as informações de duração e distância  */}
         {routeInfo.duration && (
-          <div>
-            <p><strong>Duração:</strong> {routeInfo.duration}</p>
-            <p><strong>Distância:</strong> {routeInfo.distance}</p>
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '20px',
+              left: '10px',
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              padding: '10px',
+              borderRadius: '8px',
+              zIndex: 1000,
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+            }}
+          >
+            <p>
+              <strong>Duração: </strong>{routeInfo.duration}
+            </p>
+            <p>
+              <strong>Distância: </strong>{routeInfo.distance}
+            </p>
           </div>
         )}
-      </div>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
-        {directions && <DirectionsRenderer directions={directions} />}
       </GoogleMap>
+
+      {/* Aqui será a parte de escreve o ponto de origem e destino */}
+      <div className='bg-brand-300/20'>
+        <div className="flex flex-row items-center justify-center space-x-2">
+          {/* Primeira coluna: origem e Destino */}
+          <div className="flex flex-col">
+            <input
+              type="text"
+              placeholder="Escolher ponto de partida"
+              value={origin}
+              onChange={(e) => setOrigin(e.target.value)}
+              className="border p-2 rounded mb-3 mt-3"
+            />
+            <input
+              type="text"
+              placeholder="Digite o destino"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              className="border p-2 rounded mb-3"
+            />
+          </div>
+          {/* Aqui teremos um botão de inversão, onde chama a função invertRoute */}
+          <div className="flex items-center justify-center">
+            <button 
+              onClick={invertRoute} 
+              className="bg-white border border-gray-400 text-black px-2 py-2 mx-2 rounded-full"
+              title="Inverter origem e destino"
+            >
+              <LuArrowDownUp className="w-6 h-6"/>
+            </button>
+          </div>
+        </div>
+        {/* Aqui temos o calculateRoute onde vai calcular a rota para o usuário */}
+        <div className="flex justify-center">
+          <button 
+            onClick={calculateRoute} 
+            className="bg-brand-200 text-white px-4 py-2 rounded mb-4 flex items-center"
+          >
+            <span>Calcular Rota</span>
+            <FiSearch className="w-5 h-5 ml-2"/>
+          </button>
+        </div>
+        {/* Já aqui será a mensagem de erro, se acaso o usuário inserir o destino ou a partida errado */}
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      </div>
+
+      {/* Botão de configurações sobre o mapa */}
+      <button
+        onClick={handleConfigClick}
+        style={{
+          position: 'absolute',
+          top: '92px',
+          left: '10px',
+          backgroundColor: '#FFC107',
+          border: 'none',
+          borderRadius: '50%',
+          padding: '10px',
+          cursor: 'pointer',
+          zIndex: 1000
+        }}
+      >
+        <IoMenuOutline className='w-8 h-8'/>
+      </button>
+        
     </LoadScript>
   );
 };
