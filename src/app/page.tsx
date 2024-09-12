@@ -20,7 +20,7 @@ function Page() {
       {userAuth && (
         <main>
            <FeedMaps />
-           <button onClick={() => logout()}>Sign Out</button>
+           {/*<button onClick={() => logout()}>Sign Out</button>*/}
         </main>
       )}
     </>
