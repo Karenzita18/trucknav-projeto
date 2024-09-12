@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from "react";
-import signUp from "../../firebase/auth/SingUp";
+import signUp from "../../firebase/auth/SignUp";
 import { useRouter } from 'next/navigation';
 
 function Page1() {
@@ -21,7 +21,7 @@ function Page1() {
 
         // else successful
         console.log(result);
-        return router.push("/singIn");
+        return router.push("/signIn");
     };
 
     // Função para alternar a visibilidade da senha

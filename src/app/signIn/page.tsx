@@ -2,11 +2,11 @@
 
 import { useState, FormEvent } from "react";
 import { FirebaseError } from "firebase/app";
-import signIn from "../../firebase/auth/singIn";
+import signIn from "../../firebase/auth/signIn";
 import { useRouter } from 'next/navigation';
 
 
-function Page() {
+function Page2() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const router = useRouter()
@@ -76,7 +76,7 @@ function Page() {
                                     />
                                 </label>
                                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mb-4">Entrar</button>
-                                <button type="button" onClick={() => router.push("/singUp")} className="bg-gray-500 text-white px-4 py-2 rounded">Cadastrar</button>
+                                <button type="button" onClick={() => router.push("/signUp")} className="bg-gray-500 text-white px-4 py-2 rounded">Cadastrar</button>
                             </form>
                         </div>
 
@@ -87,4 +87,4 @@ function Page() {
     );
 }
 
-export default Page;
+export default Page2;

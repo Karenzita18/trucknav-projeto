@@ -3,14 +3,14 @@ import Image from 'next/image'
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "../../context/AuthContext";
 
-function Page() {
+function Page3() {
     const { userAuth, logout } = useAuthContext();
     const router = useRouter();
   
     console.log(userAuth);
   
     if (userAuth == null) {
-      router.push("/singIn");
+      router.push("/signIn");
     }
     return (
         <div  className="bg-brand-300/10 flex flex-col justify-between min-h-screen">
@@ -23,6 +23,8 @@ function Page() {
                                     src="/img/img.png"
                                     alt="logo"
                                     className="rounded-full"
+                                    width={528}
+                                    height={527}
                                 />
                             </div>
                             <h1 className="text-center md:text-3xl text-4xl text-brand-100 font-bold mb-3">
@@ -65,4 +67,4 @@ function Page() {
     );
 }
 
-export default Page;
+export default Page3;
