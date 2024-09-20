@@ -28,12 +28,12 @@ function EsqueciSenha() {
     };
 
     return (
-        <div className="bg-brand-300/10 flex flex-col justify-between min-h-screen">
-            <section className="bg-brand-300/40 flex justify-center place-content-center h-full grow px-5 place-items-center">
+        <div className="flex flex-col justify-between min-h-screen">
+            <section className="bg-brand-200/80 flex justify-center place-content-center h-full grow px-5 place-items-center min-h-screen">
                 <div className="row w-full h-fit">
                     <div className="container mx-auto">
                         <div className="flex flex-col max-w-xl bg-zinc-50 rounded-xl px-5 sm:px-10 pb-6 sm:pb-7 mx-auto shadow-lg">
-                            <div className="w-32 sm:w-44 h-32 sm:h-44 mx-auto -mt-10 mb-2">
+                            <div className="w-32 sm:w-44 h-32 sm:h-44 mx-auto mt-5 mb-2">
                                 <img
                                     src="/img/img.png"
                                     alt="logo"
@@ -63,11 +63,17 @@ function EsqueciSenha() {
                                 {message && <p className="text-green-500 mb-2">{message}</p>}
 
 
-                                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mb-4">
+                                <button 
+                                    type="submit" 
+                                    className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+                                >
                                     Enviar Email
                                 </button>
-                                <button onClick={() => router.push('/entrar')} className="bg-blue-500 text-white px-4 py-2 rounded mb-4">
-                                    Voltar para Login
+                                <button 
+                                    onClick={() => router.push('/entrar')} 
+                                    className="bg-gray-500 text-white px-4 py-2 rounded"
+                                >
+                                    Voltar
                                 </button>
                             </form>
                         </div>

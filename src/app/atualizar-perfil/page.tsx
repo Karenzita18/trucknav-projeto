@@ -44,12 +44,12 @@ function Page3() {
     };
     
     return (
-        <div  className="bg-brand-300/10 flex flex-col justify-between min-h-screen">
-             <section className="bg-brand-300/40 flex justify-center place-content-center h-full grow px-5 place-items-center">
+        <div  className="flex flex-col justify-between min-h-screen">
+             <section className="bg-brand-200/80 flex justify-center place-content-center h-full grow px-5 place-items-center min-h-screen">
                 <div className="row w-full h-fit">
                     <div  className="container mx-auto">
                         <div  className="flex flex-col max-w-xl bg-zinc-50 rounded-xl px-5 sm:px-10 pb-6 sm:pb-7 mx-auto shadow-lg">
-                            <div className="w-32 sm:w-44 h-32 sm:h-44 mx-auto -mt-10 mb-2">
+                            <div className="w-32 sm:w-44 h-32 sm:h-44 mx-auto mt-5 mb-2">
                                 <img
                                     src="/img/img.png"
                                     alt="logo"
@@ -62,7 +62,10 @@ function Page3() {
 
                               {error && <p className="text-red-500">{error}</p>}
 
-                            <form onSubmit={handleUpdateProfile}  className="flex flex-col items-center">
+                            <form 
+                                onSubmit={handleUpdateProfile}  
+                                className="flex flex-col items-center"
+                            >
                                 <label htmlFor="email" className="mb-4">
                                     <p>Email</p>
                                     <input 
@@ -88,8 +91,18 @@ function Page3() {
                                     />
                                 </label>
                                
-                                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mb-4"> Atualizar Perfil</button>
-                                <button onClick={() => logout()} className="bg-blue-500 text-white px-4 py-2 rounded mb-4">Sair</button>
+                                <button 
+                                    type="submit" 
+                                    className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+                                > 
+                                    Atualizar Perfil
+                                </button>
+                                <button 
+                                    onClick={() => logout()}        
+                                    className="bg-gray-500 text-white px-4 py-2 rounded"
+                                >
+                                    Sair
+                                </button>
                             </form>
                         </div>      
 

@@ -93,7 +93,7 @@ function Entrar() {
                                 {errorMessage && (
                                     <p className="text-red-500 mb-4">{errorMessage}</p>
                                 )}
-                                <div className="text-sm -mt-3 mb-3">
+                                <div className="text-sm mb-3">
                                     <button
                                         type="button"
                                         onClick={() => router.push("/esqueci-senha")} // Redireciona para a página de recuperação de senha
@@ -102,8 +102,19 @@ function Entrar() {
                                         Esqueci minha senha
                                     </button>
                                 </div>
-                                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mb-4">Entrar</button>
-                                <button type="button" onClick={() => router.push("/cadastro")} className="bg-gray-500 text-white px-4 py-2 rounded">Cadastrar</button>
+                                <button 
+                                    type="submit" 
+                                    className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+                                >
+                                    Entrar
+                                </button>
+                                <button 
+                                    type="button" 
+                                    onClick={() => router.push("/cadastro")} 
+                                    className="bg-gray-500 text-white px-4 py-2 rounded"
+                                >
+                                    Cadastrar
+                                </button>
                             </form>
                         </div>
                     </div>
