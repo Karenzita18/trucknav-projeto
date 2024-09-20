@@ -8,40 +8,40 @@ import { updateEmail, updatePassword, User } from "firebase/auth"; // Importando
 
 
 function Page3() {
-        const { userAuth, logout } = useAuthContext();
-        const router = useRouter();
+    const { userAuth, logout } = useAuthContext();
+    const router = useRouter();
     
-        const [email, setEmail] = useState<string>(userAuth?.email || ""); // Estado para o email com tipagem
-        const [password, setPassword] = useState<string>(""); // Estado para a senha com tipagem
-        const [error, setError] = useState<string | null>(null); // Estado para erros com tipagem
+    const [email, setEmail] = useState<string>(userAuth?.email || ""); // Estado para o email com tipagem
+    const [password, setPassword] = useState<string>(""); // Estado para a senha com tipagem
+    const [error, setError] = useState<string | null>(null); // Estado para erros com tipagem
     
-        // Redireciona para a página de login se o usuário não estiver autenticado
-        if (userAuth == null) {
-            router.push("/signIn");
-        }
+    // Redireciona para a página de login se o usuário não estiver autenticado
+    if (userAuth == null) {
+        router.push("/entrar");
+    }
     
-        // Função para atualizar o email e a senha do usuário no Firebase
-        const handleUpdateProfile = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-            e.preventDefault();
+    // Função para atualizar o email e a senha do usuário no Firebase
+    const handleUpdateProfile = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+        e.preventDefault();
     
-            try {
-                if (userAuth) {
-                    // Atualizar o email se o valor do email foi modificado
-                    if (email && email !== userAuth.email) {
-                        await updateEmail(userAuth as User, email);
-                    }
+        try {
+            if (userAuth) {
+                // Atualizar o email se o valor do email foi modificado
+                if (email && email !== userAuth.email) {
+                    await updateEmail(userAuth as User, email);
+                }
     
-                    // Atualizar a senha se uma nova senha foi inserida
-                    if (password) {
-                        await updatePassword(userAuth as User, password);
-                    }
+                // Atualizar a senha se uma nova senha foi inserida
+                if (password) {
+                    await updatePassword(userAuth as User, password);
+                }
     
-                    alert("Perfil atualizado com sucesso!");
-                }
-            } catch (error) {
-                setError("Erro ao atualizar perfil: " + (error as Error).message); // Tratamento de erro
-            }
-        };
+                alert("Perfil atualizado com sucesso!");
+            }
+        } catch (error) {
+            setError("Erro ao atualizar perfil: " + (error as Error).message); // Tratamento de erro
+        }
+    };
     
     return (
         <div  className="bg-brand-300/10 flex flex-col justify-between min-h-screen">
@@ -89,9 +89,9 @@ function Page3() {
                                 </label>
                                
                                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mb-4"> Atualizar Perfil</button>
-                                <button onClick={() => logout()} className="bg-blue-500 text-white px-4 py-2 rounded mb-4">Sign Out </button>
+                                <button onClick={() => logout()} className="bg-blue-500 text-white px-4 py-2 rounded mb-4">Sair</button>
                             </form>
-                        </div>
+                        </div>      
 
                     </div>
                 </div>

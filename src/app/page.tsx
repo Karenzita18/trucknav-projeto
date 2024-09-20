@@ -12,7 +12,7 @@ function Page() {
   console.log(userAuth);
 
   if (userAuth == null) {
-    router.push("/signIn");
+    router.push("/entrar");
   }
 
   return (

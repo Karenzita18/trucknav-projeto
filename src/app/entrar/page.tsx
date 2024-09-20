@@ -3,9 +3,9 @@
 import { useState, FormEvent } from "react";
 import { FirebaseError } from "firebase/app";
 import signIn from "../../firebase/auth/SignIn";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
-function Page2() {
+function Entrar() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -32,33 +32,30 @@ function Page2() {
         try {
             const { result, error } = await signIn(email, password);
 
-            // Verifique se houve um erro
             if (error) {
                 const firebaseError = error as FirebaseError;
                 const errorMsg = getErrorMessage(firebaseError.code);
-                setErrorMessage(errorMsg);  // Atualiza a mensagem de erro
-                return;  // Interrompe o fluxo se houver um erro
+                setErrorMessage(errorMsg);
+                return;
             }
 
-            // Se o login for bem-sucedido, redireciona o usuário
             if (result) {
-                console.log(result);
                 return router.push("/");
             }
 
         } catch (error) {
             console.error('Error: ', error);
-            setErrorMessage('Ocorreu um erro inesperado. Tente novamente.'); // Mensagem genérica para erros não esperados
+            setErrorMessage('Ocorreu um erro inesperado. Tente novamente.');
         }
     };
 
     return (
-        <div className="bg-brand-300/10 flex flex-col justify-between min-h-screen">
-            <section className="bg-brand-300/40 flex justify-center place-content-center h-full grow px-5 place-items-center">
+        <div className="flex flex-col justify-between">
+            <section className="bg-brand-200/80 flex justify-center place-content-center h-full grow px-5 place-items-center min-h-screen">
                 <div className="row w-full h-fit">
                     <div className="container mx-auto">
                         <div className="flex flex-col max-w-xl bg-zinc-50 rounded-xl px-5 sm:px-10 pb-6 sm:pb-7 mx-auto shadow-lg">
-                            <div className="w-32 sm:w-44 h-32 sm:h-44 mx-auto -mt-10 mb-2">
+                            <div className="w-32 sm:w-44 h-32 sm:h-44 mx-auto mt-5 mb-2">
                                 <img
                                     src="/img/img.png"
                                     alt="logo"
@@ -66,7 +63,7 @@ function Page2() {
                                 />
                             </div>
                             <h1 className="text-center md:text-3xl text-4xl text-brand-100 font-bold mb-3">
-                                Login
+                                Entrar
                             </h1>
                             <form onSubmit={handleForm} className="flex flex-col items-center">
                                 <label htmlFor="email" className="mb-4">
@@ -93,11 +90,20 @@ function Page2() {
                                         className="border p-2 rounded"
                                     />
                                 </label>
-                                {errorMessage && (  // Exibe a mensagem de erro se houver
+                                {errorMessage && (
                                     <p className="text-red-500 mb-4">{errorMessage}</p>
                                 )}
+                                <div className="text-sm -mt-3 mb-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => router.push("/esqueci-senha")} // Redireciona para a página de recuperação de senha
+                                        className="underline text-sm"
+                                    >
+                                        Esqueci minha senha
+                                    </button>
+                                </div>
                                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mb-4">Entrar</button>
-                                <button type="button" onClick={() => router.push("/signUp")} className="bg-gray-500 text-white px-4 py-2 rounded">Cadastrar</button>
+                                <button type="button" onClick={() => router.push("/cadastro")} className="bg-gray-500 text-white px-4 py-2 rounded">Cadastrar</button>
                             </form>
                         </div>
                     </div>
@@ -107,4 +113,4 @@ function Page2() {
     );
 }
 
-export default Page2;
+export default Entrar;

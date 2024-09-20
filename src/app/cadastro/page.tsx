@@ -21,7 +21,7 @@ function Page1() {
 
         // else successful
         console.log(result);
-        return router.push("/signIn");
+        return router.push("/entrar");
     };
 
     // Função para alternar a visibilidade da senha
@@ -78,7 +78,7 @@ function Page1() {
                                     </button>
                                 </label>
                                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded mb-4">Salvar</button>
-                                {/*<button type="button" onClick={() => router.push("/singIn")} className="bg-gray-500 text-white px-4 py-2 rounded">Login</button>*/}
+                                <button type="button" onClick={() => router.push("/entrar")} className="bg-gray-500 text-white px-4 py-2 rounded">Voltar</button>
                             </form>
                         </div>
                     </div>

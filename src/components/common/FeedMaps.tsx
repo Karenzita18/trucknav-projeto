@@ -69,7 +69,7 @@ const FeedMaps: React.FC = () => {
   };
 
   const handleConfigClick = () => {
-    router.push("/configuracao");  // Navegar para a página de configurações
+    router.push("/atualizar-perfil");  // Navegar para a página de configurações
   };
 
   return (
